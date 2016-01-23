@@ -5,7 +5,7 @@
 var electron = require('electron');
 var ipc = electron.ipcRenderer;
 var webFrame = electron.webFrame;
-import loader from '../helpers/loader';
+import loader from 'loader';
 
 setNotificationCallback(function (title, opt) {
     ipc.send('notification', title, opt);
