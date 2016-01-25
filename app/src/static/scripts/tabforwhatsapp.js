@@ -33,7 +33,13 @@ function cycleWithTab(doc, e) {
 }
 
 function bindKeyListener(doc, e) {
-    doc.onkeydown = cycleWithTab.bind(null, doc);
+    var fn = cycleWithTab.bind(null, doc);
+    var existingListener = doc.onkeydown;
+    doc.onkeydown = function (ev) {
+        existingListener(ev);
+        fn(ev);
+    };
+    //doc.onkeydown = cycleWithTab.bind(null, doc);
 }
 
 module.exports =  bindKeyListener;
