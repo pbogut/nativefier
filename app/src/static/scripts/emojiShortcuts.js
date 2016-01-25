@@ -44,7 +44,8 @@ var Handler = {
     },
     handle: function (doc, e) {
         if (e.keyCode === 38 && e.ctrlKey && !this.initialized) {
-            this.attach(doc)
+            this.attach(doc);
+            return false;
         }
 
         if (this.initialized) {
@@ -55,12 +56,14 @@ var Handler = {
                 return;
             }
             if (e.keyCode === 13) {
-                // on Escape or enter, close panel and detach
+                // on enter, close panel and detach
+                e.preventDefault();
                 par.childNodes[this.targetIndex].click();
                 this.detach(doc);
                 return;
             }
             else if (e.keyCode === 37) {
+                e.preventDefault();
                 // Left
                 if (this.coords.x === 0) {
                     this.coords.x = this.bounds.x;
@@ -73,6 +76,7 @@ var Handler = {
                 }
             }
             else if (e.keyCode === 39) {
+                e.preventDefault();
                 // Right
                 //TODO ctrl key to switch emoji tabs
                 if (this.coords.x === this.bounds.x) {
@@ -85,6 +89,7 @@ var Handler = {
                 }
             }
             else if (e.keyCode === 38) {
+                e.preventDefault();
                 // Up
                 if (this.coords.y === 0) {
                     var grandParent = document.querySelector('#main > footer > span > div > span > div');
@@ -101,6 +106,7 @@ var Handler = {
                 }
             }
             else if (e.keyCode === 40) {
+                e.preventDefault();
                 // Down
                 if (this.coords.y === this.bounds.y) {
                     var grandParent = document.querySelector('#main > footer > span > div > span > div');
@@ -113,8 +119,8 @@ var Handler = {
             }
 
             this.highlightSelected();
-
         }
+        return false;
     }
 };
 
