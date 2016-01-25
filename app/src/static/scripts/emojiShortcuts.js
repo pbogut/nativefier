@@ -39,7 +39,14 @@ var Handler = {
     },
     detach: function (doc) {
         // Close emoji panel
-        doc.querySelector('#main > footer > div > button').click();
+
+        // Apparently WhatsApp has an undiscovered bug where clicking that panel button
+        // to close the emoji panel will force the next enter to insert a new line.
+        // The workaround for now to only allow for closing with Escape, the only supported method
+        // doc.querySelector('#main > footer > div > button').click();
+
+        // Chrome doesn't really support sending keyboard events AFAIK. Help needed!
+        //var event = new KeyboardEvent(null,{"keyCode": 38, "code":"Escape"} );
         this.initialized = false;
     },
     handle: function (doc, e) {
@@ -50,17 +57,18 @@ var Handler = {
 
         if (this.initialized) {
             var par = document.querySelector('#main > footer > span > div > span > div > div');
-            if (e.keyCode === 27 || (e.keyCode === 40 && e.ctrlKey)) {
-                // on escape, detach
+            if (e.keyCode === 27) {
+                // On Escape
                 this.detach(doc);
-                return;
+                return true;
             }
+
             if (e.keyCode === 13) {
                 // on enter, close panel and detach
                 e.preventDefault();
                 par.childNodes[this.targetIndex].click();
-                this.detach(doc);
-                return;
+                //this.detach(doc);
+                return false;
             }
             else if (e.keyCode === 37) {
                 e.preventDefault();
