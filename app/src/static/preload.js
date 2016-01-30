@@ -3,7 +3,7 @@
  */
 import electron from 'electron';
 const {ipcRenderer, webFrame} = electron;
-import loader from '../helpers/loader';
+import loader from './loader';
 
 setNotificationCallback((title, opt) => {
     ipcRenderer.send('notification', title, opt);
@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', event => {
 
         ipcRenderer.send('contextMenuOpened', targetHref);
     }, false);
+
     loader.runAll(document, event)
 });
 
